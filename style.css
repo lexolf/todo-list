@@ -29,13 +29,13 @@ body {
 }
 
 #projects-input {
-    font-size: 1em;
-    height: 2em;
+    font-size: 1.5rem;
     background-color: #bfdaec;
     border: none;
     outline: none;
-    padding: 5% 5% 5% 15%;
-    width: 80%;
+    box-sizing: border-box;
+    padding: 2rem;
+    width: 100%;
 }
 
 #tasks-pane {
@@ -48,6 +48,28 @@ body {
     padding-left: 1em;
     text-transform: capitalize;
 }
+
+#tasks-input {
+    font-size: 1rem;
+    background-color: #bfdaec;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    padding: 2rem;
+    width: 100%;
+}
+
+/* Tasks list */
+
+.task {
+    padding: 2em;
+}
+
+.task:hover {
+    background-color: #daffff;
+}
+
+/* Detail panel */
 
 #details-pane {
     flex: 2 0 0;
@@ -93,14 +115,4 @@ body {
     line-height: 50px;
     user-select: none;
     cursor: pointer;
-}
-
-/* The look of tasks list */
-
-.task {
-    padding: 2em;
-}
-
-.task:hover {
-    background-color: #daffff;
 }
