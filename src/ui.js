@@ -39,7 +39,7 @@ const renderPanes = (app) => {
         if(i < 2){
             let input = document.createElement("input");
             input.id = panes[i] + "-input";
-            input.textContent = "Type to create a new " + panes[i] + "...";
+            input.placeholder = "New " + panes[i].slice(0,panes[i].length-1) + " title...";
             pane.appendChild(input);
             let container = document.createElement("div");
             container.id = panes[i] + "-container";
