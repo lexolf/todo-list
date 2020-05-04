@@ -90,10 +90,47 @@
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("\n\n//# sourceURL=webpack:///./src/index.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ui */ \"./src/ui.js\");\n\n\nObject(_ui__WEBPACK_IMPORTED_MODULE_0__[\"default\"])();\n\n//# sourceURL=webpack:///./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/logic.js":
+/*!**********************!*\
+  !*** ./src/logic.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task */ \"./src/task.js\");\n\n\nconst createTask = (object) => {\n    let task = Object(_task__WEBPACK_IMPORTED_MODULE_0__[\"Task\"])(\"New Title\", \"this is a brief description\", \"2020-15-05\", \"urgent\");\n    _task__WEBPACK_IMPORTED_MODULE_0__[\"tasks\"].push(task);\n    for(let i in _task__WEBPACK_IMPORTED_MODULE_0__[\"tasks\"]){\n        let tasksPane = document.getElementById(\"tasks-pane\");\n        let newTaskTitle  = document.createElement(\"div\");\n        newTaskTitle.classList = \"task\";\n        newTaskTitle.textContent = _task__WEBPACK_IMPORTED_MODULE_0__[\"tasks\"][i].getTitle();\n        tasksPane.appendChild(newTaskTitle);\n    }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (createTask);\n\n//# sourceURL=webpack:///./src/logic.js?");
+
+/***/ }),
+
+/***/ "./src/task.js":
+/*!*********************!*\
+  !*** ./src/task.js ***!
+  \*********************/
+/*! exports provided: Task, tasks */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Task\", function() { return Task; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"tasks\", function() { return tasks; });\nlet tasks = [];\n\nconst Task = (title, description, dueDate, priority) => {\n    const getTitle = () => title;\n    const getDescription = () => description;\n    const getDueDate = () => dueDate;\n    const getTimeLeft = () => \"1 day\" // hardcoded, supposed to be due date minus today\n    const getPriority = () => priority;\n    let isDone = false;\n    const getDone = () => isDone;\n    const switchDone = () => {isDone = !isDone}\n\n    return { getTitle, getDescription, getDueDate, getTimeLeft, getPriority, getDone, switchDone }\n}\n\n\n\n//# sourceURL=webpack:///./src/task.js?");
+
+/***/ }),
+
+/***/ "./src/ui.js":
+/*!*******************!*\
+  !*** ./src/ui.js ***!
+  \*******************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _logic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./logic */ \"./src/logic.js\");\n\n\n// The initial state of the app that appears on page load\n\nconst initialiseApp = () => {\n    // App is a parent element\n    let app = document.getElementById(\"app\");\n    renderPanes(app);\n    // Create button to create a new task\n    let newTaskButton = document.createElement(\"a\");\n    newTaskButton.id = \"new-task-btn\";\n    newTaskButton.textContent = \"+\";\n    newTaskButton.addEventListener(\"click\", (e) => { \n        Object(_logic__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(window.event.target);\n     }, false);\n    app.appendChild(newTaskButton);\n}   \n\nconst renderPanes = (app) => {\n    let panes = [\"projects\", \"tasks\", \"details\"];\n    for(let i in panes){\n        let pane = document.createElement(\"div\");\n        pane.id = panes[i] + \"-pane\";\n        app.appendChild(pane);\n        let title = document.createElement(\"h1\");\n        title.id = panes[i] + \"-title\";\n        title.textContent = panes[i];\n        pane.appendChild(title);\n    }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (initialiseApp);\n\n//# sourceURL=webpack:///./src/ui.js?");
 
 /***/ })
 
