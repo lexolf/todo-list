@@ -1,4 +1,4 @@
-import {createTask, createProject} from "./logic"
+import {createTask, createProject, functionaliseInputs} from "./logic"
 import {Project, projects} from "./project"
 import {Task, tasks} from "./task"
 
@@ -24,6 +24,7 @@ const initialiseApp = () => {
         createProject(window.event.target);
      }, false);
     app.appendChild(newProjectButton);
+    functionaliseInputs();
 }   
 
 const renderPanes = (app) => {

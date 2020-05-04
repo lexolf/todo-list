@@ -8,10 +8,17 @@ const createTask = (object) => {
     renderTasks();
 }
 
-const createProject = (object) => {
-    let project = Project("Main");
+const createProject = (title) => {
+    let project = Project(title);
     projects.push(project);
     renderProjects();
 }
 
-export {createProject, createTask};
+const functionaliseInputs = () => {
+    const projectsInput = document.getElementById("projects-input");
+    projectsInput.addEventListener("keydown", (e) => {
+        if (e.keyCode === 13) { createProject(window.event.target.value) }
+    });
+}
+
+export {createProject, createTask, functionaliseInputs};
