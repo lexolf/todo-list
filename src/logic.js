@@ -17,8 +17,12 @@ const createProject = (title) => {
 const functionaliseInputs = () => {
     const projectsInput = document.getElementById("projects-input");
     projectsInput.addEventListener("keydown", (e) => {
-        if (e.keyCode === 13) { createProject(window.event.target.value) }
+        if (e.keyCode === 13) { 
+            createProject(window.event.target.value);
+            projectsInput.value = ""; // empty field
+            projectsInput.blur(); // inactivate field
+        }
     });
-}
+} 
 
 export {createProject, createTask, functionaliseInputs};
