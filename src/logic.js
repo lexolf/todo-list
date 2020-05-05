@@ -1,17 +1,20 @@
-import {Task, tasks} from "./task";
+import Task from "./task";
 import {Project, projects} from "./project";
 import {renderTasks, renderProjects} from "./ui";
 
-const createTask = (object) => {
-    let task = Task("New Title", "this is a brief description", "2020-15-05", "urgent");
-    tasks.push(task);
-    renderTasks();
+let activeProject;
+
+const createTask = (title, description, deadline, priority, project) => {
+    let task = Task(title, description, deadline, priority);
+    project.addTask(task);
+    renderTasks(project);
 }
 
 const createProject = (title) => {
     let project = Project(title);
     projects.push(project);
     renderProjects();
+    activeProject = projects[projects.length-1]; // switch focus to new project
 }
 
 const functionaliseInputs = () => {
@@ -23,6 +26,14 @@ const functionaliseInputs = () => {
             projectsInput.blur(); // inactivate field
         }
     });
+    const tasksInput = document.getElementById("tasks-input");
+    tasksInput.addEventListener("keydown", (e) => {
+        if (e.keyCode === 13){
+            createTask("Bomb", "it's gonna blow!", "tomorrow", "urgent", activeProject);
+            tasksInput.value = ""; 
+            tasksInput.blur();
+        }
+    });
 } 
 
-export {createProject, createTask, functionaliseInputs};
+export {activeProject, createProject, createTask, functionaliseInputs};

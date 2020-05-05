@@ -8,22 +8,6 @@ const initialiseApp = () => {
     // App is a parent element
     let app = document.getElementById("app");
     renderPanes(app);
-    // Create button to create a new task
-    let newTaskButton = document.createElement("a");
-    newTaskButton.id = "new-task-btn";
-    newTaskButton.textContent = "+";
-    newTaskButton.addEventListener("click", (e) => { 
-        createTask(window.event.target);
-     }, false);
-    app.appendChild(newTaskButton);
-    // Create button to create a new project
-    let newProjectButton = document.createElement("a");
-    newProjectButton.id = "new-project-btn";
-    newProjectButton.textContent = "P";
-    newProjectButton.addEventListener("click", (e) => { 
-        createProject(window.event.target);
-     }, false);
-    app.appendChild(newProjectButton);
     functionaliseInputs();
 }   
 
@@ -49,13 +33,13 @@ const renderPanes = (app) => {
     }
 }
 
-const renderTasks = () => {
+const renderTasks = (project) => {
     let tasksContainer = document.getElementById("tasks-container");
     tasksContainer.innerHTML = "";
-    for(let i in tasks){
+    for(let i in project.getTasks()){
         let newTaskTitle  = document.createElement("div");
         newTaskTitle.classList = "task";
-        newTaskTitle.textContent = tasks[i].getTitle();
+        newTaskTitle.textContent = project.getTasks()[i].getTitle();
         tasksContainer.appendChild(newTaskTitle);
     }
 }
