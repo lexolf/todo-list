@@ -30,6 +30,19 @@ const functionaliseInputs = () => {
         }
     });
     const tasksInput = document.getElementById("tasks-input");
+    tasksInput.addEventListener("click", (e) => {
+        if(!document.getElementById("tasks-description")){
+            let tasksDescriptionInput = document.createElement("textarea");
+            tasksDescriptionInput.id = "tasks-description";
+            tasksInput.after(tasksDescriptionInput);
+            let app = document.getElementById("app");
+            app.addEventListener("click", (e) => {
+                if(event.target.id != "tasks-input" && event.target.id != "tasks-description"){
+                    tasksDescriptionInput.remove();
+                };
+            });
+        };
+    });
     tasksInput.addEventListener("keydown", (e) => {
         if (e.keyCode === 13){
             createTask("Bomb", "it's gonna blow!", "tomorrow", "urgent", projects.filter(project => project.isActive() == true)[0]);
