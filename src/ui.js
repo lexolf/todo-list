@@ -51,6 +51,15 @@ const renderProjects = () => {
         let newProjectTitle  = document.createElement("div");
         newProjectTitle.classList = "project";
         newProjectTitle.textContent = projects[i].getTitle();
+        newProjectTitle.addEventListener("click", (e) => {
+            let selectedProject = projects.filter(project => project.getTitle() == window.event.target.textContent)[0];
+            let deselectedProjects = projects.filter(project => project.getTitle() != window.event.target.textContent);
+            for(let i in deselectedProjects){
+                deselectedProjects[i].deactivate();
+            }
+            selectedProject.activate();
+            renderTasks(selectedProject);
+        })
         projectsContainer.appendChild(newProjectTitle);
     }
 }

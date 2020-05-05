@@ -9,8 +9,9 @@ const Project = (title) => {
     }
     const getTasks = () => tasks;
     const isActive = () => active;
-    const switchActive = () => !active;
-    return {getTitle, addTask, getTasks, isActive, switchActive};
+    const activate = () => {active = true};
+    const deactivate = () => {active = false};
+    return {getTitle, addTask, getTasks, isActive, activate, deactivate};
 }
 
 export {Project, projects}

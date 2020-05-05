@@ -2,8 +2,6 @@ import Task from "./task";
 import {Project, projects} from "./project";
 import {renderTasks, renderProjects} from "./ui";
 
-let activeProject;
-
 const createTask = (title, description, deadline, priority, project) => {
     let task = Task(title, description, deadline, priority);
     project.addTask(task);
@@ -14,7 +12,12 @@ const createProject = (title) => {
     let project = Project(title);
     projects.push(project);
     renderProjects();
-    activeProject = projects[projects.length-1]; // switch focus to new project
+    if(projects.length > 0){
+            for(let i in projects){
+            projects[i].deactivate();
+        }
+    }
+    projects[projects.length-1].activate(); // switch focus to new project
 }
 
 const functionaliseInputs = () => {
@@ -29,11 +32,11 @@ const functionaliseInputs = () => {
     const tasksInput = document.getElementById("tasks-input");
     tasksInput.addEventListener("keydown", (e) => {
         if (e.keyCode === 13){
-            createTask("Bomb", "it's gonna blow!", "tomorrow", "urgent", activeProject);
+            createTask("Bomb", "it's gonna blow!", "tomorrow", "urgent", projects.filter(project => project.isActive() == true)[0]);
             tasksInput.value = ""; 
             tasksInput.blur();
         }
     });
 } 
 
-export {activeProject, createProject, createTask, functionaliseInputs};
+export {createProject, createTask, functionaliseInputs};
