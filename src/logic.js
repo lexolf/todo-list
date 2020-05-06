@@ -15,41 +15,11 @@ const createProject = (title) => {
     if(projects.length > 0){
             for(let i in projects){
             projects[i].deactivate();
+            document.getElementsByClassName("project")[i].classList = "project";
         }
     }
-    projects[projects.length-1].activate(); // switch focus to new project
+    projects[projects.length-1].activate();
+    document.getElementsByClassName("project")[projects.length-1].classList = "project active" // switch focus to new project
 }
 
-const functionaliseInputs = () => {
-    const projectsInput = document.getElementById("projects-input");
-    projectsInput.addEventListener("keydown", (e) => {
-        if (e.keyCode === 13) { 
-            createProject(window.event.target.value);
-            projectsInput.value = ""; // empty field
-            projectsInput.blur(); // inactivate field
-        }
-    });
-    const tasksInput = document.getElementById("tasks-input");
-    tasksInput.addEventListener("click", (e) => {
-        if(!document.getElementById("tasks-description")){
-            let tasksDescriptionInput = document.createElement("textarea");
-            tasksDescriptionInput.id = "tasks-description";
-            tasksInput.after(tasksDescriptionInput);
-            let app = document.getElementById("app");
-            app.addEventListener("click", (e) => {
-                if(event.target.id != "tasks-input" && event.target.id != "tasks-description"){
-                    tasksDescriptionInput.remove();
-                };
-            });
-        };
-    });
-    tasksInput.addEventListener("keydown", (e) => {
-        if (e.keyCode === 13){
-            createTask("Bomb", "it's gonna blow!", "tomorrow", "urgent", projects.filter(project => project.isActive() == true)[0]);
-            tasksInput.value = ""; 
-            tasksInput.blur();
-        }
-    });
-} 
-
-export {createProject, createTask, functionaliseInputs};
+export {createProject, createTask};
