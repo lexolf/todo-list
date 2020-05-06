@@ -9,6 +9,7 @@ const initialiseApp = () => {
     let app = document.getElementById("app");
     renderPanes(app);
     functionaliseInputs();
+    ctrlEnter();
 }   
 
 const renderPanes = (app) => {
@@ -53,8 +54,15 @@ const renderProjects = () => {
         projectTitle.classList = "project";
         projectTitle.textContent = projects[i].getTitle();
         projectTitle.addEventListener("click", (e) => {
-            let selectedProject = projects.filter(project => project.getTitle() == window.event.target.textContent)[0];
-            let deselectedProjects = projects.filter(project => project.getTitle() != window.event.target.textContent);
+            let selectedProjectName = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
+            if(window.event.target.textContent == "×"){
+                let projectToDelete = window.event.target.parentNode;
+                let projectsContainer =  window.event.target.parentNode.parentNode;
+                let projectToDeleteIndex = projectsContainer.filter(projectToDelete);
+                console.log(projectToDeleteIndex);
+            }
+            let selectedProject = projects.filter(project => project.getTitle() == selectedProjectName)[0];
+            let deselectedProjects = projects.filter(project => project.getTitle() != selectedProjectName);
             for(let i in deselectedProjects){
                 deselectedProjects[i].deactivate();
             };
@@ -64,6 +72,15 @@ const renderProjects = () => {
             };                                                          // while the active project
             window.event.target.classList = "project active";           // has 'active' style
             renderTasks(selectedProject);
+        });
+        projectTitle.addEventListener("mouseenter", (e) => {
+            let deleteProjectButton = document.createElement("a");
+            deleteProjectButton.textContent = "×";
+            deleteProjectButton.id = "delete-project";
+            projectsDOM[i].appendChild(deleteProjectButton);
+        });
+        projectTitle.addEventListener("mouseleave", (e) => {
+            document.getElementById("delete-project").remove();
         });
         projectsContainer.appendChild(projectTitle);
     }
@@ -108,6 +125,20 @@ const functionaliseTasksInput = () => {
         }
     });
 }
+
+// const ctrlEnter = () => {
+//     window.addEventListener('keydown', function (e) {
+//         if (e.ctrlKey && e.keyCode == 13) {
+//             var text = "";
+//             if (window.getSelection) {
+//                 text = window.getSelection().toString();
+//             } else if (document.selection && document.selection.type != "Control") {
+//                 text = document.selection.createRange().text;
+//             }
+//             console.log(text);
+//         }
+//       });
+//     }
 
 export default initialiseApp;
 export {renderTasks, renderProjects};
