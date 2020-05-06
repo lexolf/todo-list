@@ -38,6 +38,27 @@ body {
     width: 100%;
 }
 
+.project {
+    font-size: 1.5rem;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    padding: 2rem;
+    width: 100%;
+}
+
+.project:hover {
+    background-color: #cdf3f3;
+    cursor: pointer;
+}
+
+.project.active {
+    background-color: #cdd1f3;
+    border-left: 5px solid #707df0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
 #tasks-pane {
     flex: 3 0 0;
 }
@@ -67,7 +88,7 @@ body {
 }
 
 .task:hover {
-    background-color: #daffff;
+    background-color: #cdf3f3;
 }
 
 /* Detail panel */
@@ -81,39 +102,4 @@ body {
     color: #13293d;
     padding-left: 1em;
     text-transform: capitalize;
-}
-
-/* The button to create new tasks */
-
-#new-task-btn {
-    font-size: 40px;
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    height: 50px;
-    width: 50px;
-    border-radius: 25px;
-    background-color: white;
-    box-shadow: 0px 1px 10px rgb(0,0,0);
-    text-align: center;
-    line-height: 50px;
-    user-select: none;
-    cursor: pointer;
-}
-/* The button to create new projects */
-
-#new-project-btn {
-    font-size: 40px;
-    position: absolute;
-    bottom: 25px;
-    right: 100px;
-    height: 50px;
-    width: 50px;
-    border-radius: 25px;
-    background-color: white;
-    box-shadow: 0px 1px 10px rgb(0,0,0);
-    text-align: center;
-    line-height: 50px;
-    user-select: none;
-    cursor: pointer;
 }
