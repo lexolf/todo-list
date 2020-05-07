@@ -9,7 +9,6 @@ const initialiseApp = () => {
     let app = document.getElementById("app");
     renderPanes(app);
     functionaliseInputs();
-    ctrlEnter();
 }   
 
 const renderPanes = (app) => {
@@ -56,22 +55,10 @@ const renderProjects = () => {
         projectTitle.addEventListener("click", (e) => {
             let selectedProjectName = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
             if(window.event.target.textContent == "×"){
-                let projectToDelete = window.event.target.parentNode;
-                let projectsContainer =  window.event.target.parentNode.parentNode;
-                let projectToDeleteIndex = projectsContainer.filter(projectToDelete);
-                console.log(projectToDeleteIndex);
+                deleteProject(window.event.target);
+            } else {
+                selectProject(selectedProjectName);
             }
-            let selectedProject = projects.filter(project => project.getTitle() == selectedProjectName)[0];
-            let deselectedProjects = projects.filter(project => project.getTitle() != selectedProjectName);
-            for(let i in deselectedProjects){
-                deselectedProjects[i].deactivate();
-            };
-            selectedProject.activate();
-            for(let i = 0; i < projectsDOM.length; i++){                // each inactive projects
-                projectsDOM[i].classList = "project";                   // has corresponding no 'active' style
-            };                                                          // while the active project
-            window.event.target.classList = "project active";           // has 'active' style
-            renderTasks(selectedProject);
         });
         projectTitle.addEventListener("mouseenter", (e) => {
             let deleteProjectButton = document.createElement("a");
@@ -124,6 +111,30 @@ const functionaliseTasksInput = () => {
             tasksInput.blur();
         }
     });
+}
+
+const deleteProject = (target) => {
+    let projectToDelete = window.event.target.parentNode;
+    let projectsContainer =  window.event.target.parentNode.parentNode;
+    let projectToDeleteIndex = Array.prototype.indexOf.call(projectsContainer.children, projectToDelete);
+    projectsContainer.removeChild(projectToDelete);
+    projects.splice(projectToDeleteIndex, 1);
+    renderProjects();
+};
+
+const selectProject = (name) => {
+    let selectedProject = projects.filter(project => project.getTitle() == name)[0];
+    let deselectedProjects = projects.filter(project => project.getTitle() != name);
+    for(let i in deselectedProjects){
+        deselectedProjects[i].deactivate();
+    };
+    selectedProject.activate();
+    let projectsDOM = document.getElementsByClassName("project");
+    for(let i = 0; i < projectsDOM.length; i++){                // each inactive projects
+        projectsDOM[i].classList = "project";                   // has corresponding no 'active' style
+    };                                                          // while the active project
+    window.event.target.classList = "project active";           // has 'active' style
+    renderTasks(selectedProject);
 }
 
 // const ctrlEnter = () => {
