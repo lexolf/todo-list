@@ -22,10 +22,13 @@ const renderPanes = (app) => {
         title.textContent = panes[i];
         pane.appendChild(title);
         if(i < 2){
+            let inputContainer = document.createElement("div");
+            inputContainer.id = panes[i] + "-input-container";
+            pane.appendChild(inputContainer);
             let input = document.createElement("input");
             input.id = panes[i] + "-input";
             input.placeholder = "New " + panes[i].slice(0,panes[i].length-1) + "...";
-            pane.appendChild(input);
+            inputContainer.appendChild(input);
             let container = document.createElement("div");
             container.id = panes[i] + "-container";
             pane.appendChild(container);
@@ -96,10 +99,29 @@ const functionaliseTasksInput = () => {
             let tasksDescriptionInput = document.createElement("textarea");
             tasksDescriptionInput.id = "tasks-description";
             tasksInput.after(tasksDescriptionInput);
+
+            
+            //add calendar selection button
+            let setDeadlineButton = document.createElement("input");
+            setDeadlineButton.type = "date";
+            setDeadlineButton.id = "select-deadline";
+            tasksInput.after(setDeadlineButton);
+            //add priority selection button
+            let setPriorityButton = document.createElement("select");
+            setPriorityButton.id = "select-priority";
+            let options = ["low", "normal", "high", "urgent"];
+            for(let i in options){
+                let option = document.createElement("option");
+                option.textContent = options[i];
+                setPriorityButton.appendChild(option);
+            }
+            tasksInput.after(setPriorityButton);
             let app = document.getElementById("app");
             app.addEventListener("click", (e) => {
-                if(event.target.id != "tasks-input" && event.target.id != "tasks-description"){
+                if(event.target.parentNode.id != "tasks-input-container" && event.target.parentNode.parentNode.id != "tasks-input-container"){
                     tasksDescriptionInput.remove();
+                    setPriorityButton.remove();
+                    setDeadlineButton.remove();
                 };
             });
         };
