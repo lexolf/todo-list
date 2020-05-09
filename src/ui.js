@@ -115,7 +115,7 @@ const functionaliseTasksInput = () => {
                 option.textContent = options[i];
                 setPriorityButton.appendChild(option);
             }
-            tasksInput.after(setPriorityButton);
+            setDeadlineButton.after(setPriorityButton);
             let app = document.getElementById("app");
             app.addEventListener("click", (e) => {
                 if(event.target.parentNode.id != "tasks-input-container" && event.target.parentNode.parentNode.id != "tasks-input-container"){
@@ -158,20 +158,6 @@ const selectProject = (name) => {
     window.event.target.classList = "project active";           // has 'active' style
     renderTasks(selectedProject);
 }
-
-// const ctrlEnter = () => {
-//     window.addEventListener('keydown', function (e) {
-//         if (e.ctrlKey && e.keyCode == 13) {
-//             var text = "";
-//             if (window.getSelection) {
-//                 text = window.getSelection().toString();
-//             } else if (document.selection && document.selection.type != "Control") {
-//                 text = document.selection.createRange().text;
-//             }
-//             console.log(text);
-//         }
-//       });
-//     }
 
 export default initialiseApp;
 export {renderTasks, renderProjects};
