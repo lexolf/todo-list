@@ -91,6 +91,10 @@ body {
     text-transform: capitalize;
 }
 
+#tasks-input-container {
+    position: relative;
+}
+
 #tasks-input {
     font-size: 1rem;
     background-color: #bfdaec;
@@ -101,6 +105,15 @@ body {
     width: 100%;
     z-index: 100;
 }
+
+/* date picker */ 
+
+#select-deadline {
+    position: absolute;
+    display: block;
+    top: 25%;   
+    right: 10%;
+}  
 
 /* Tasks list */
 
