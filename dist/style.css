@@ -112,8 +112,29 @@ body {
     position: absolute;
     display: block;
     top: 25%;   
-    right: 10%;
+    right: 14%;
+    width: 20%;
+    height: 25px;
+    line-height: 25px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
 }  
+
+/* priority picker */
+#select-priority {
+    position: absolute;
+    display: block;
+    top: 25%;   
+    right: 2%;
+    width: 10%;
+    height: 25px;
+    line-height: 25px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+}  
+
 
 /* Tasks list */
 
