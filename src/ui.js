@@ -128,7 +128,11 @@ const functionaliseTasksInput = () => {
     });
     tasksInput.addEventListener("keydown", (e) => {
         if (e.keyCode === 13){
-            createTask("Bomb", "it's gonna blow!", "tomorrow", "urgent", projects.filter(project => project.isActive() == true)[0]);
+            let title = document.getElementById("tasks-input").value;
+            let description = document.getElementById("tasks-description").value;
+            let deadline = document.getElementById("select-deadline").value;
+            let priority = document.getElementById("select-priority").value;
+            createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
             tasksInput.value = ""; 
             tasksInput.blur();
         }
