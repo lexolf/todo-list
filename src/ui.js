@@ -210,6 +210,23 @@ const selectTask = (project, name) => {
 const renderDetails = (task) => {
     let details = document.getElementById("details-pane");
     details.classList = "show-content";
+    details.innerHTML = "";
+    let taskTitle = document.createElement("h2");
+    taskTitle.id = "details-title"
+    taskTitle.textContent = task.getTitle();
+    details.appendChild(taskTitle);
+    let taskDescription = document.createElement("div");
+    taskDescription.id = "details-description";
+    taskDescription.textContent = task.getDescription();
+    details.appendChild(taskDescription);
+    let taskDue = document.createElement("div");
+    taskDue.id = "details-due";
+    taskDue.textContent = task.getDueDate();
+    details.appendChild(taskDue);
+    let taskPriority = document.createElement("div");
+    taskPriority.id = "details-priority";
+    taskPriority.textContent = task.getPriority();
+    details.appendChild(taskPriority);
 }
 
 export default initialiseApp;
