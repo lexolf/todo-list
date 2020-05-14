@@ -41,8 +41,26 @@ const renderTasks = (project) => {
     tasksContainer.innerHTML = "";
     for(let i in project.getTasks()){
         let newTaskTitle  = document.createElement("div");
+        let allTasksInDOM = document.getElementsByClassName("task");
         newTaskTitle.classList = "task";
         newTaskTitle.textContent = project.getTasks()[i].getTitle();
+        newTaskTitle.addEventListener("mouseenter", (e) => {
+            let deleteTaskButton = document.createElement("a");
+            deleteTaskButton.textContent = "×";
+            deleteTaskButton.id = "delete-task";
+            allTasksInDOM[i].appendChild(deleteTaskButton);
+        });
+        newTaskTitle.addEventListener("mouseleave", (e) => {
+            document.getElementById("delete-task").remove();
+        });
+        newTaskTitle.addEventListener("click", (e) => {
+            let selectedTaskTitle = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
+            if(window.event.target.textContent == "×"){
+                deleteTask(project, window.event.target);
+            } else {
+                selectTask(selectedTaskTitle);
+            }
+        });
         tasksContainer.appendChild(newTaskTitle);
     }
 }
@@ -55,14 +73,6 @@ const renderProjects = () => {
         let projectsDOM = document.getElementsByClassName("project");
         projectTitle.classList = "project";
         projectTitle.textContent = projects[i].getTitle();
-        projectTitle.addEventListener("click", (e) => {
-            let selectedProjectName = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
-            if(window.event.target.textContent == "×"){
-                deleteProject(window.event.target);
-            } else {
-                selectProject(selectedProjectName);
-            }
-        });
         projectTitle.addEventListener("mouseenter", (e) => {
             let deleteProjectButton = document.createElement("a");
             deleteProjectButton.textContent = "×";
@@ -71,6 +81,14 @@ const renderProjects = () => {
         });
         projectTitle.addEventListener("mouseleave", (e) => {
             document.getElementById("delete-project").remove();
+        });
+        projectTitle.addEventListener("click", (e) => {
+            let selectedProjectName = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
+            if(window.event.target.textContent == "×"){
+                deleteProject(window.event.target);
+            } else {
+                selectProject(selectedProjectName);
+            }
         });
         projectsContainer.appendChild(projectTitle);
     }
@@ -99,14 +117,10 @@ const functionaliseTasksInput = () => {
             let tasksDescriptionInput = document.createElement("textarea");
             tasksDescriptionInput.id = "tasks-description";
             tasksInput.after(tasksDescriptionInput);
-
-            
-            //add calendar selection button
             let setDeadlineButton = document.createElement("input");
             setDeadlineButton.type = "date";
             setDeadlineButton.id = "select-deadline";
             tasksInput.after(setDeadlineButton);
-            //add priority selection button
             let setPriorityButton = document.createElement("select");
             setPriorityButton.id = "select-priority";
             let options = ["low", "normal", "high", "urgent"];
@@ -118,7 +132,8 @@ const functionaliseTasksInput = () => {
             setDeadlineButton.after(setPriorityButton);
             let app = document.getElementById("app");
             app.addEventListener("click", (e) => {
-                if(event.target.parentNode.id != "tasks-input-container" && event.target.parentNode.parentNode.id != "tasks-input-container"){
+                console.log(event.target.nodeName);
+                if(event.target.parentNode.id != "tasks-input-container" && event.target.nodeName != "OPTION"){
                     tasksDescriptionInput.remove();
                     setPriorityButton.remove();
                     setDeadlineButton.remove();
@@ -146,6 +161,17 @@ const deleteProject = (target) => {
     projectsContainer.removeChild(projectToDelete);
     projects.splice(projectToDeleteIndex, 1);
     renderProjects();
+};
+
+const deleteTask = (project, target) => {
+    console.log("Preparing to delte task!");
+    let taskToDelete = window.event.target.parentNode;
+    let tasksContainer =  window.event.target.parentNode.parentNode;
+    let taskToDeleteIndex = Array.prototype.indexOf.call(tasksContainer.children, taskToDelete);
+    tasksContainer.removeChild(taskToDelete);
+    project.removeTask(taskToDeleteIndex);
+    console.log("Deleted task!");
+    renderTasks(project);
 };
 
 const selectProject = (name) => {
