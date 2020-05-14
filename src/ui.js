@@ -58,7 +58,7 @@ const renderTasks = (project) => {
             if(window.event.target.textContent == "×"){
                 deleteTask(project, window.event.target);
             } else {
-                selectTask(selectedTaskTitle);
+                selectTask(project, selectedTaskTitle);
             }
         });
         tasksContainer.appendChild(newTaskTitle);
@@ -132,7 +132,6 @@ const functionaliseTasksInput = () => {
             setDeadlineButton.after(setPriorityButton);
             let app = document.getElementById("app");
             app.addEventListener("click", (e) => {
-                console.log(event.target.nodeName);
                 if(event.target.parentNode.id != "tasks-input-container" && event.target.nodeName != "OPTION"){
                     tasksDescriptionInput.remove();
                     setPriorityButton.remove();
@@ -164,13 +163,11 @@ const deleteProject = (target) => {
 };
 
 const deleteTask = (project, target) => {
-    console.log("Preparing to delte task!");
     let taskToDelete = window.event.target.parentNode;
     let tasksContainer =  window.event.target.parentNode.parentNode;
     let taskToDeleteIndex = Array.prototype.indexOf.call(tasksContainer.children, taskToDelete);
     tasksContainer.removeChild(taskToDelete);
     project.removeTask(taskToDeleteIndex);
-    console.log("Deleted task!");
     renderTasks(project);
 };
 
@@ -187,6 +184,21 @@ const selectProject = (name) => {
     };                                                          // while the active project
     window.event.target.classList = "project active";           // has 'active' style
     renderTasks(selectedProject);
+}
+
+const selectTask = (project, name) => {
+    let selectedTask = project.getTasks().filter(task => task.getTitle() == name)[0];
+    let deselectedTasks = project.getTasks().filter(task => task.getTitle() != name);
+    for(let i in deselectedTasks){
+        deselectedTasks[i].deactivate();
+    };
+    selectedTask.activate();
+    let allTasksInDOM = document.getElementsByClassName("task");
+    for(let i = 0; i < allTasksInDOM.length; i++){
+        allTasksInDOM[i].classList = "task";
+    };
+    window.event.target.classList = "task active";
+    renderDetails(selectedTask);
 }
 
 export default initialiseApp;
