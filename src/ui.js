@@ -32,6 +32,12 @@ const renderPanes = (app) => {
             let container = document.createElement("div");
             container.id = panes[i] + "-container";
             pane.appendChild(container);
+        } else {
+            pane.classList = "empty";
+            let paneEmpty = document.createElement("div");
+            paneEmpty.textContent = "Please select task to show details";
+            paneEmpty.id = "details-empty";
+            pane.appendChild(paneEmpty);
         }
     }
 }
@@ -199,6 +205,11 @@ const selectTask = (project, name) => {
     };
     window.event.target.classList = "task active";
     renderDetails(selectedTask);
+}
+
+const renderDetails = (task) => {
+    let details = document.getElementById("details-pane");
+    details.classList = "show-content";
 }
 
 export default initialiseApp;
