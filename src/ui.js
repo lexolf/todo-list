@@ -9,6 +9,7 @@ const initialiseApp = () => {
     let app = document.getElementById("app");
     renderPanes(app);
     functionaliseInputs();
+    renderProjects();
 }   
 
 const renderPanes = (app) => {
@@ -165,6 +166,7 @@ const deleteProject = (target) => {
     let projectToDeleteIndex = Array.prototype.indexOf.call(projectsContainer.children, projectToDelete);
     projectsContainer.removeChild(projectToDelete);
     projects.splice(projectToDeleteIndex, 1);
+    localStorage.removeItem(projectToDelete.textContent.substring(0, projectToDelete.textContent.length-1));
     renderProjects();
 };
 
@@ -174,6 +176,7 @@ const deleteTask = (project, target) => {
     let taskToDeleteIndex = Array.prototype.indexOf.call(tasksContainer.children, taskToDelete);
     tasksContainer.removeChild(taskToDelete);
     project.removeTask(taskToDeleteIndex);
+    project.store();
     renderTasks(project);
 };
 

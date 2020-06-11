@@ -11,10 +11,17 @@ const Project = (title) => {
         tasks.splice(index, 1);
     }
     const getTasks = () => tasks;
+    const store = () => {
+        let storageArray  = [];
+        for(let i of tasks){
+            storageArray.push([i.getTitle(), i.getDescription(), i.getDueDate(), i.getPriority()])
+        }
+        localStorage.setItem(title, JSON.stringify(storageArray));
+    }
     const isActive = () => active;
     const activate = () => {active = true};
     const deactivate = () => {active = false};
-    return {getTitle, addTask, removeTask, getTasks, isActive, activate, deactivate};
+    return {getTitle, addTask, removeTask, getTasks, isActive, activate, deactivate, store};
 }
 
 export {Project, projects}
