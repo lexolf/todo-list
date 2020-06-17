@@ -21,7 +21,9 @@ body {
     flex: 1 0 0;
     border-right: 1px solid #3e92cc;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    scrollbar-color: #3e92cc #cdd1f3;
+    scrollbar-width: thin;
 }
 
 #projects-title {
@@ -85,8 +87,11 @@ body {
 
 #tasks-pane {
     flex: 3 0 0;
+    border-right: 1px solid #3e92cc;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    scrollbar-color: #3e92cc #cdd1f3;
+    scrollbar-width: thin;
 }
 
 #tasks-title {
@@ -124,6 +129,7 @@ body {
     box-sizing: border-box;
     border: none;
     outline: none;
+    font-family: 'Ubuntu', sans-serif;
 }  
 
 /* priority picker */
@@ -150,8 +156,24 @@ body {
     outline: none;
     resize: none;
     background-color: #cdf3f3;
+    font-family: 'Ubuntu', sans-serif;
 }  
 
+#create-task-button {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 3rem;
+    user-select: none;
+    color: #707df0;
+    background-color: #cdd1f3;;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    box-shadow: 0px 0px 8px 1px #707df0;
+}
 /* Tasks list */
 
 .task {
