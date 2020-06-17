@@ -110,9 +110,13 @@ const functionaliseProjectsInput = () => {
     const projectsInput = document.getElementById("projects-input");
     projectsInput.addEventListener("keydown", (e) => {
         if (e.keyCode === 13) { 
-            createProject(window.event.target.value);
-            projectsInput.value = ""; // empty field
-            projectsInput.blur(); // inactivate field
+            if(projectsInput.value != ''){
+                createProject(window.event.target.value);
+                projectsInput.value = ""; // empty field
+                projectsInput.blur(); // inactivate field
+            } else {
+                alert("Please enter project name before creating it.")
+            }
         }
     });
 }
@@ -123,10 +127,16 @@ const functionaliseTasksInput = () => {
         if(!document.getElementById("tasks-description")){
             let tasksDescriptionInput = document.createElement("textarea");
             tasksDescriptionInput.id = "tasks-description";
+            tasksDescriptionInput.placeholder = "Enter task description here...";
+            let createTaskButton = document.createElement("div");
+            createTaskButton.id = "create-task-button";
+            createTaskButton.textContent = "+";
+            tasksInput.after(createTaskButton);
             tasksInput.after(tasksDescriptionInput);
             let setDeadlineButton = document.createElement("input");
             setDeadlineButton.type = "date";
             setDeadlineButton.id = "select-deadline";
+            setDeadlineButton.value = new Date().toDateInputValue();
             tasksInput.after(setDeadlineButton);
             let setPriorityButton = document.createElement("select");
             setPriorityButton.id = "select-priority";
@@ -136,6 +146,7 @@ const functionaliseTasksInput = () => {
                 option.textContent = options[i];
                 setPriorityButton.appendChild(option);
             }
+            setPriorityButton.value = options[2];
             setDeadlineButton.after(setPriorityButton);
             let app = document.getElementById("app");
             app.addEventListener("click", (e) => {
@@ -143,6 +154,7 @@ const functionaliseTasksInput = () => {
                     tasksDescriptionInput.remove();
                     setPriorityButton.remove();
                     setDeadlineButton.remove();
+                    createTaskButton.remove();
                 };
             });
         };
@@ -153,7 +165,9 @@ const functionaliseTasksInput = () => {
             let description = document.getElementById("tasks-description").value;
             let deadline = document.getElementById("select-deadline").value;
             let priority = document.getElementById("select-priority").value;
-            createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
+            if(title != ''){
+                createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
+            } else {alert("Please enter task name before creating it.");}
             tasksInput.value = ""; 
             tasksInput.blur();
         }
@@ -231,6 +245,13 @@ const renderDetails = (task) => {
     taskPriority.textContent = task.getPriority();
     details.appendChild(taskPriority);
 }
+
+// Extend Date to allow default date
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
 
 export default initialiseApp;
 export {renderTasks, renderProjects};
