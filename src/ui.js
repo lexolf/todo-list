@@ -121,6 +121,21 @@ const functionaliseProjectsInput = () => {
     });
 }
 
+const callCreateTask = (title, description, deadline, priority) => {
+    if(title != ''){
+        let title = document.getElementById("tasks-input").value;
+        let description = document.getElementById("tasks-description").value;
+        let deadline = document.getElementById("select-deadline").value;
+        let priority = document.getElementById("select-priority").value;
+        createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
+        document.getElementById("select-priority").remove();
+        document.getElementById("select-deadline").remove();
+        document.getElementById("tasks-description").remove();
+        document.getElementById("create-task-button").remove();
+        } else {alert("Please enter task name before creating it.");
+    }
+}
+
 const functionaliseTasksInput = () => {
     const tasksInput = document.getElementById("tasks-input");
     tasksInput.addEventListener("click", (e) => {
@@ -131,6 +146,12 @@ const functionaliseTasksInput = () => {
             let createTaskButton = document.createElement("div");
             createTaskButton.id = "create-task-button";
             createTaskButton.textContent = "+";
+            createTaskButton.addEventListener("click", (e) => {
+                e.preventDefault();
+                callCreateTask();
+                tasksInput.value = ""; 
+                tasksInput.blur();
+            });
             tasksInput.after(createTaskButton);
             tasksInput.after(tasksDescriptionInput);
             let setDeadlineButton = document.createElement("input");
@@ -150,24 +171,18 @@ const functionaliseTasksInput = () => {
             setDeadlineButton.after(setPriorityButton);
             let app = document.getElementById("app");
             app.addEventListener("click", (e) => {
-                if(event.target.parentNode.id != "tasks-input-container" && event.target.nodeName != "OPTION"){
-                    tasksDescriptionInput.remove();
-                    setPriorityButton.remove();
-                    setDeadlineButton.remove();
-                    createTaskButton.remove();
+                if(event.target.parentNode != null && event.target.parentNode.id != "tasks-input-container" && event.target.nodeName != "OPTION" && event.target.id != "create-task-button"){
+                tasksDescriptionInput.remove();
+                setPriorityButton.remove();
+                setDeadlineButton.remove();
+                createTaskButton.remove();
                 };
             });
         };
     });
     tasksInput.addEventListener("keydown", (e) => {
         if (e.keyCode === 13){
-            let title = document.getElementById("tasks-input").value;
-            let description = document.getElementById("tasks-description").value;
-            let deadline = document.getElementById("select-deadline").value;
-            let priority = document.getElementById("select-priority").value;
-            if(title != ''){
-                createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
-            } else {alert("Please enter task name before creating it.");}
+            callCreateTask();
             tasksInput.value = ""; 
             tasksInput.blur();
         }
