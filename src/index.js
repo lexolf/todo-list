@@ -8,6 +8,9 @@ const retrieveProjects = () => {
         for(let j = 0; j < JSON.parse(localStorage.getItem(localStorage.key(i))).length; j++){
             let taskTemplate = JSON.parse(localStorage.getItem(localStorage.key(i)))[j];
             let newTask = Task(taskTemplate[0], taskTemplate[1], taskTemplate[2], taskTemplate[3]);
+            if(taskTemplate[4]){
+                newTask.switchDone();
+            }
             newProject.addTask(newTask);
         }
         projects.push(newProject);

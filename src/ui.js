@@ -46,24 +46,40 @@ const renderPanes = (app) => {
 const renderTasks = (project) => {
     let tasksContainer = document.getElementById("tasks-container");
     tasksContainer.innerHTML = "";
-    for(let i in project.getTasks()){
+    for(let i in project.getTasks().sort(function(a,b){
+        if(!a.getDone()){a = 1}
+        else{a = 0}
+        if(!b.getDone()){b = 1}
+        else{b = 0}
+        return a-b
+    })){
         let newTaskTitle  = document.createElement("div");
         let allTasksInDOM = document.getElementsByClassName("task");
         newTaskTitle.classList = "task";
+        if(!project.getTasks()[i].getDone()){
+            newTaskTitle.classList += " done";
+        }
         newTaskTitle.textContent = project.getTasks()[i].getTitle();
         newTaskTitle.addEventListener("mouseenter", (e) => {
             let deleteTaskButton = document.createElement("a");
             deleteTaskButton.textContent = "×";
             deleteTaskButton.id = "delete-task";
             allTasksInDOM[i].appendChild(deleteTaskButton);
+            let doneTaskButton = document.createElement("a");
+            doneTaskButton.textContent = "✓";
+            doneTaskButton.id = "done-task";
+            allTasksInDOM[i].appendChild(doneTaskButton);
         });
         newTaskTitle.addEventListener("mouseleave", (e) => {
             document.getElementById("delete-task").remove();
+            document.getElementById("done-task").remove();
         });
         newTaskTitle.addEventListener("click", (e) => {
-            let selectedTaskTitle = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
+            let selectedTaskTitle = window.event.target.textContent.substring(0, window.event.target.textContent.length-2) // Cut "x" from string
             if(window.event.target.textContent == "×"){
                 deleteTask(project, window.event.target);
+            } else if(window.event.target.textContent == "✓"){
+                markTaskDone(project, window.event.target);
             } else {
                 selectTask(project, selectedTaskTitle);
             }
@@ -238,6 +254,15 @@ const selectTask = (project, name) => {
     window.event.target.classList = "task active";
     renderDetails(selectedTask);
 }
+
+const markTaskDone = (project, target) => {
+    let taskToMark = window.event.target.parentNode;
+    let tasksContainer =  window.event.target.parentNode.parentNode;
+    let taskToMarkIndex = Array.prototype.indexOf.call(tasksContainer.children, taskToMark);
+    project.getTasks()[taskToMarkIndex].switchDone();
+    project.store();
+    renderTasks(project);
+};
 
 const renderDetails = (task) => {
     let details = document.getElementById("details-pane");

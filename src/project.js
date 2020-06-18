@@ -14,7 +14,7 @@ const Project = (title) => {
     const store = () => {
         let storageArray  = [];
         for(let i of tasks){
-            storageArray.push([i.getTitle(), i.getDescription(), i.getDueDate(), i.getPriority()])
+            storageArray.push([i.getTitle(), i.getDescription(), i.getDueDate(), i.getPriority(), i.getDone()])
         }
         localStorage.setItem(title, JSON.stringify(storageArray));
     }
