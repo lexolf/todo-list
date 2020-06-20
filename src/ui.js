@@ -52,7 +52,7 @@ const renderTasks = (project) => {
         else{a = 1}
         if(!b.getDone()){b = 0}
         else{b = 1}
-        return b-a
+        return a-b
     })){
         let newTaskTitle  = document.createElement("div");
         let allTasksInDOM = document.getElementsByClassName("task");
