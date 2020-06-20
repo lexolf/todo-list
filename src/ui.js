@@ -44,19 +44,20 @@ const renderPanes = (app) => {
 }
 
 const renderTasks = (project) => {
+    if(projects.length == 0){alert("!")}
     let tasksContainer = document.getElementById("tasks-container");
     tasksContainer.innerHTML = "";
     for(let i in project.getTasks().sort(function(a,b){
-        if(!a.getDone()){a = 1}
-        else{a = 0}
-        if(!b.getDone()){b = 1}
-        else{b = 0}
-        return a-b
+        if(!a.getDone()){a = 0}
+        else{a = 1}
+        if(!b.getDone()){b = 0}
+        else{b = 1}
+        return b-a
     })){
         let newTaskTitle  = document.createElement("div");
         let allTasksInDOM = document.getElementsByClassName("task");
         newTaskTitle.classList = "task";
-        if(!project.getTasks()[i].getDone()){
+        if(project.getTasks()[i].getDone()){
             newTaskTitle.classList += " done";
         }
         newTaskTitle.textContent = project.getTasks()[i].getTitle();
@@ -138,18 +139,20 @@ const functionaliseProjectsInput = () => {
 }
 
 const callCreateTask = (title, description, deadline, priority) => {
-    if(title != ''){
-        let title = document.getElementById("tasks-input").value;
-        let description = document.getElementById("tasks-description").value;
-        let deadline = document.getElementById("select-deadline").value;
-        let priority = document.getElementById("select-priority").value;
-        createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
-        document.getElementById("select-priority").remove();
-        document.getElementById("select-deadline").remove();
-        document.getElementById("tasks-description").remove();
-        document.getElementById("create-task-button").remove();
-        } else {alert("Please enter task name before creating it.");
-    }
+    if(projects){
+        if(title != ''){
+            let title = document.getElementById("tasks-input").value;
+            let description = document.getElementById("tasks-description").value;
+            let deadline = document.getElementById("select-deadline").value;
+            let priority = document.getElementById("select-priority").value;
+            createTask(title, description, deadline, priority, projects.filter(project => project.isActive() == true)[0]);
+            document.getElementById("select-priority").remove();
+            document.getElementById("select-deadline").remove();
+            document.getElementById("tasks-description").remove();
+            document.getElementById("create-task-button").remove();
+            } else {alert("Please enter task name before creating it.");
+        }
+    } else {alert("Please select a project first.")}
 }
 
 const functionaliseTasksInput = () => {
@@ -236,7 +239,10 @@ const selectProject = (name) => {
     for(let i = 0; i < projectsDOM.length; i++){                // each inactive projects
         projectsDOM[i].classList = "project";                   // has corresponding no 'active' style
     };                                                          // while the active project
-    window.event.target.classList = "project active";           // has 'active' style
+    if(window.event){                                    // has 'active' style
+        window.event.target.classList = "project active";} else { 
+            document.getElementsByClassName("project")[0].classList = "project active";
+        }           
     renderTasks(selectedProject);
 }
 
@@ -305,5 +311,5 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 
-export default initialiseApp;
+export {initialiseApp, selectProject};
 export {renderTasks, renderProjects};
