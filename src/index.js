@@ -7,7 +7,7 @@ const retrieveProjects = () => {
         let newProject = Project("Main");
         let newProjectTask = Task("Create a new Project", "To create a new Project, type its name in the field in the left pane, then press Enter button.", new Date().toDateInputValue(), "important");
         newProject.addTask(newProjectTask);
-        let newTaskTask = Task("Create a new Task", "To create a new Task, type its name in the field in the middle pane, then press Enter button OR type its name and details, choose deadline and priority, and click the check mark.", new Date().toDateInputValue(), "important");
+        let newTaskTask = Task("Create a new Task", "To create a new Task, type its name in the field in the middle pane, then press Enter button OR type its name and details, choose deadline and priority, and click the plus symbol.", new Date().toDateInputValue(), "important");
         newProject.addTask(newTaskTask);
         let markTaskDoneTask = Task("Mark a Task as done", "To mark a Task as done, click a check mark. You can mark it as undone by clicking again.", new Date().toDateInputValue(), "important");
         newProject.addTask(markTaskDoneTask);

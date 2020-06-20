@@ -44,7 +44,11 @@ const renderPanes = (app) => {
 }
 
 const renderTasks = (project) => {
-    if(projects.length == 0){alert("!")}
+    if(projects.length == 0){alert("Please create a project first.")}
+    if(!project){
+        project = projects.filter(project => project.isActive() == true)[0];
+        project.store();
+    }
     let tasksContainer = document.getElementById("tasks-container");
     tasksContainer.innerHTML = "";
     for(let i in project.getTasks().sort(function(a,b){
@@ -302,6 +306,54 @@ const renderDetails = (task) => {
     taskPriority.id = "details-priority";
     taskPriority.textContent = task.getPriority();
     details.appendChild(taskPriority);
+    functionaliseDetails(task);
+}
+
+const functionaliseDetails = (task) => {
+    let title = document.getElementById("details-title");
+    title.addEventListener("click", (e) => {
+        let editText = title.textContent;
+        let titleInput = document.createElement("input");
+        titleInput.id = "details-title-edit";
+        title.after(titleInput);
+        titleInput.value = editText;
+        title.remove();
+        titleInput.addEventListener("keydown", (e) => {
+            if (e.keyCode === 13) { 
+                if(titleInput.value != ''){
+                    task.updateTitle(titleInput.value);
+                    titleInput.remove();
+                    renderDetails(task);
+                    renderTasks();
+                } else {
+                    alert("Please make sure the task name is not empty.")
+                }
+            }
+        });
+    });
+    let description = document.getElementById("details-description");
+    description.addEventListener("click", (e) => {
+        let editText = description.textContent;
+        let descriptionInput = document.createElement("textarea");
+        let descriptionInputDiv = document.createElement("div");
+        descriptionInputDiv.id = "details-description-container";
+        descriptionInput.id = "details-description-edit";
+        description.after(descriptionInputDiv);
+        descriptionInputDiv.appendChild(descriptionInput);
+        descriptionInput.value = editText;
+        description.remove();
+        let updateDescriptionButton = document.createElement("a");
+        updateDescriptionButton.textContent = "+";
+        updateDescriptionButton.id = "update-description-button";
+        descriptionInput.after(updateDescriptionButton);
+        updateDescriptionButton.addEventListener("click", (e) =>{
+            task.updateDescription(descriptionInput.value);
+            descriptionInputDiv.remove();
+            updateDescriptionButton.remove();
+            renderDetails(task);
+            renderTasks();
+        })
+    });
 }
 
 // Extend Date to allow default date
