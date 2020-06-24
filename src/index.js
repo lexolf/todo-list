@@ -15,6 +15,8 @@ const retrieveProjects = () => {
         newProject.addTask(deleteTaskTask);
         let deleteProjectTask = Task("Delete a Project", "To delete a Project, click the cross mark next to it in the list. The Project will be permanently deleted.", new Date().toDateInputValue(), "high");
         newProject.addTask(deleteProjectTask);
+        let updateTaskTask = Task("Update a Task", "To update the details of the Task, click the Task, then click any field on the details panel to the right that you wish to edit. Enter the updated details, then click the button to confirm a new date, priority or description, or press Enter to update the title", new Date().toDateInputValue(), "high");
+        newProject.addTask(updateTaskTask);
         projects.push(newProject);
         for(let i in projects){
             projects[i].store();

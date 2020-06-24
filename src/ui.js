@@ -260,9 +260,17 @@ const selectTask = (project, name) => {
     selectedTask.activate();
     let allTasksInDOM = document.getElementsByClassName("task");
     for(let i = 0; i < allTasksInDOM.length; i++){
-        allTasksInDOM[i].classList = "task";
+        if(allTasksInDOM[i].classList.contains("done")){
+            allTasksInDOM[i].classList = "task done";
+        } else {
+            allTasksInDOM[i].classList = "task";
+        }
     };
-    window.event.target.classList = "task active";
+    if(window.event.target.classList.contains("done")){
+        window.event.target.classList = "task done active";
+    } else {
+        window.event.target.classList = "task active";
+    }
     renderDetails(selectedTask);
 }
 
