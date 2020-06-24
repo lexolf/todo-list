@@ -5,8 +5,9 @@ const Task = (title, description, dueDate, priority) => {
     const getDescription = () => description;
     const updateDescription = (text) => {description = text};
     const getDueDate = () => dueDate;
-    const getTimeLeft = () => "1 day" // hardcoded, supposed to be due date minus today
+    const updateDue = (text) => {dueDate = text};
     const getPriority = () => priority;
+    const updatePriority = (text) => {priority = text};
     let isDone = false;
     const isActive = () => active;
     const activate = () => {active = true};
@@ -14,7 +15,7 @@ const Task = (title, description, dueDate, priority) => {
     const getDone = () => isDone;
     const switchDone = () => {isDone = !isDone}
 
-    return { getTitle, updateTitle, getDescription, updateDescription, getDueDate, getTimeLeft, getPriority, isActive, activate, deactivate, getDone, switchDone }
+    return { getTitle, updateTitle, getDescription, updateDescription, getDueDate, updateDue, getPriority, updatePriority, isActive, activate, deactivate, getDone, switchDone }
 }
 
 export default Task

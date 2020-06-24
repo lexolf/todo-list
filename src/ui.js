@@ -220,6 +220,7 @@ const deleteProject = (target) => {
     projects.splice(projectToDeleteIndex, 1);
     localStorage.removeItem(projectToDelete.textContent.substring(0, projectToDelete.textContent.length-1));
     renderProjects();
+    document.getElementById("tasks-container").innerHTML = "";
 };
 
 const deleteTask = (project, target) => {
@@ -289,6 +290,9 @@ const renderDetails = (task) => {
     let taskDescription = document.createElement("div");
     taskDescription.id = "details-description";
     taskDescription.textContent = task.getDescription();
+    if(taskDescription.textContent == ""){
+        taskDescription.textContent = "Description was not specified. Click to edit."
+    }
     details.appendChild(taskDescription);
     let taskDueLabel = document.createElement("h3");
     taskDueLabel.id = "details-due-label";
@@ -343,7 +347,7 @@ const functionaliseDetails = (task) => {
         descriptionInput.value = editText;
         description.remove();
         let updateDescriptionButton = document.createElement("a");
-        updateDescriptionButton.textContent = "+";
+        updateDescriptionButton.textContent = "✓";
         updateDescriptionButton.id = "update-description-button";
         descriptionInput.after(updateDescriptionButton);
         updateDescriptionButton.addEventListener("click", (e) =>{
@@ -354,6 +358,59 @@ const functionaliseDetails = (task) => {
             renderTasks();
         })
     });
+    let due = document.getElementById("details-due");
+    due.addEventListener("click", (e) => {
+        let editDue = due.textContent;
+        let dueInput = document.createElement("input");
+        dueInput.type = "date";
+        dueInput.id = "details-due-edit";
+        let dueInputDiv = document.createElement("div");
+        dueInputDiv.id = "details-due-container";
+        due.after(dueInputDiv);
+        dueInputDiv.appendChild(dueInput);
+        dueInput.value = editDue;
+        due.remove();
+        let updateDueButton = document.createElement("a");
+        updateDueButton.textContent = "✓";
+        updateDueButton.id = "update-due-button";
+        dueInput.after(updateDueButton);
+        updateDueButton.addEventListener("click", (e) => {
+            task.updateDue(dueInput.value);
+            dueInputDiv.remove()
+            updateDueButton.remove();
+            renderDetails(task);
+            renderTasks();
+        });
+    })
+    let priority = document.getElementById("details-priority");
+    priority.addEventListener("click", (e) => {
+        let editPriority = priority.textContent;
+        let priorityInput = document.createElement("select");
+        priorityInput.id = "details-priority-edit";
+            let options = ["low", "normal", "high", "urgent"];
+            for(let i in options){
+                let option = document.createElement("option");
+                option.textContent = options[i];
+                priorityInput.appendChild(option);
+            }
+            priorityInput.value = editPriority;
+        let priorityInputDiv = document.createElement("div");
+        priorityInputDiv.id = "details-priority-container";
+        priority.after(priorityInputDiv);
+        priorityInputDiv.appendChild(priorityInput);
+        priority.remove();
+        let updatePriorityButton = document.createElement("a");
+        updatePriorityButton.textContent = "✓";
+        updatePriorityButton.id = "update-priority-button";
+        priorityInput.after(updatePriorityButton);
+        updatePriorityButton.addEventListener("click", (e) => {
+            task.updatePriority(priorityInput.value);
+            priorityInputDiv.remove()
+            updatePriorityButton.remove();
+            renderDetails(task);
+            renderTasks();
+        });
+    })
 }
 
 // Extend Date to allow default date
