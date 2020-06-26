@@ -40,4 +40,3 @@ const retrieveProjects = () => {
 retrieveProjects();
 initialiseApp();
 selectProject(document.getElementsByClassName("project")[0].innerHTML);
-

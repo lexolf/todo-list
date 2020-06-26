@@ -1,6 +1,5 @@
 import {createTask, createProject} from "./logic"
-import {Project, projects} from "./project"
-import {Task, tasks} from "./task"
+import {projects} from "./project"
 
 // The initial state of the app that appears on page load
 
@@ -65,7 +64,7 @@ const renderTasks = (project) => {
             newTaskTitle.classList += " done";
         }
         newTaskTitle.textContent = project.getTasks()[i].getTitle();
-        newTaskTitle.addEventListener("mouseenter", (e) => {
+        newTaskTitle.addEventListener("mouseenter", () => {
             let deleteTaskButton = document.createElement("a");
             deleteTaskButton.textContent = "×";
             deleteTaskButton.id = "delete-task";
@@ -75,11 +74,11 @@ const renderTasks = (project) => {
             doneTaskButton.id = "done-task";
             allTasksInDOM[i].appendChild(doneTaskButton);
         });
-        newTaskTitle.addEventListener("mouseleave", (e) => {
+        newTaskTitle.addEventListener("mouseleave", () => {
             document.getElementById("delete-task").remove();
             document.getElementById("done-task").remove();
         });
-        newTaskTitle.addEventListener("click", (e) => {
+        newTaskTitle.addEventListener("click", () => {
             let selectedTaskTitle = window.event.target.textContent.substring(0, window.event.target.textContent.length-2) // Cut "x" from string
             if(window.event.target.textContent == "×"){
                 deleteTask(project, window.event.target);
@@ -101,16 +100,16 @@ const renderProjects = () => {
         let projectsDOM = document.getElementsByClassName("project");
         projectTitle.classList = "project";
         projectTitle.textContent = projects[i].getTitle();
-        projectTitle.addEventListener("mouseenter", (e) => {
+        projectTitle.addEventListener("mouseenter", () => {
             let deleteProjectButton = document.createElement("a");
             deleteProjectButton.textContent = "×";
             deleteProjectButton.id = "delete-project";
             projectsDOM[i].appendChild(deleteProjectButton);
         });
-        projectTitle.addEventListener("mouseleave", (e) => {
+        projectTitle.addEventListener("mouseleave", () => {
             document.getElementById("delete-project").remove();
         });
-        projectTitle.addEventListener("click", (e) => {
+        projectTitle.addEventListener("click", () => {
             let selectedProjectName = window.event.target.textContent.substring(0, window.event.target.textContent.length-1) // Cut "x" from string
             if(window.event.target.textContent == "×"){
                 deleteProject(window.event.target);
@@ -142,7 +141,7 @@ const functionaliseProjectsInput = () => {
     });
 }
 
-const callCreateTask = (title, description, deadline, priority) => {
+const callCreateTask = (title) => {
     if(projects){
         if(title != ''){
             let title = document.getElementById("tasks-input").value;
@@ -161,7 +160,7 @@ const callCreateTask = (title, description, deadline, priority) => {
 
 const functionaliseTasksInput = () => {
     const tasksInput = document.getElementById("tasks-input");
-    tasksInput.addEventListener("click", (e) => {
+    tasksInput.addEventListener("click", () => {
         if(!document.getElementById("tasks-description")){
             let tasksDescriptionInput = document.createElement("textarea");
             tasksDescriptionInput.id = "tasks-description";
@@ -193,15 +192,15 @@ const functionaliseTasksInput = () => {
             setPriorityButton.value = options[2];
             setDeadlineButton.after(setPriorityButton);
             let app = document.getElementById("app");
-            app.addEventListener("click", (e) => {
+            app.addEventListener("click", () => {
                 if(event.target.parentNode != null && event.target.parentNode.id != "tasks-input-container" && event.target.nodeName != "OPTION" && event.target.id != "create-task-button"){
                 tasksDescriptionInput.remove();
                 setPriorityButton.remove();
                 setDeadlineButton.remove();
                 createTaskButton.remove();
-                };
+                }
             });
-        };
+        }
     });
     tasksInput.addEventListener("keydown", (e) => {
         if (e.keyCode === 13){
@@ -212,7 +211,7 @@ const functionaliseTasksInput = () => {
     });
 }
 
-const deleteProject = (target) => {
+const deleteProject = () => {
     let projectToDelete = window.event.target.parentNode;
     let projectsContainer =  window.event.target.parentNode.parentNode;
     let projectToDeleteIndex = Array.prototype.indexOf.call(projectsContainer.children, projectToDelete);
@@ -223,7 +222,7 @@ const deleteProject = (target) => {
     document.getElementById("tasks-container").innerHTML = "";
 };
 
-const deleteTask = (project, target) => {
+const deleteTask = (project) => {
     let taskToDelete = window.event.target.parentNode;
     let tasksContainer =  window.event.target.parentNode.parentNode;
     let taskToDeleteIndex = Array.prototype.indexOf.call(tasksContainer.children, taskToDelete);
@@ -238,12 +237,12 @@ const selectProject = (name) => {
     let deselectedProjects = projects.filter(project => project.getTitle() != name);
     for(let i in deselectedProjects){
         deselectedProjects[i].deactivate();
-    };
+    }
     selectedProject.activate();
     let projectsDOM = document.getElementsByClassName("project");
     for(let i = 0; i < projectsDOM.length; i++){                // each inactive projects
         projectsDOM[i].classList = "project";                   // has corresponding no 'active' style
-    };                                                          // while the active project
+    }                                                          // while the active project
     if(window.event){                                    // has 'active' style
         window.event.target.classList = "project active";} else { 
             document.getElementsByClassName("project")[0].classList = "project active";
@@ -256,7 +255,7 @@ const selectTask = (project, name) => {
     let deselectedTasks = project.getTasks().filter(task => task.getTitle() != name);
     for(let i in deselectedTasks){
         deselectedTasks[i].deactivate();
-    };
+    }
     selectedTask.activate();
     let allTasksInDOM = document.getElementsByClassName("task");
     for(let i = 0; i < allTasksInDOM.length; i++){
@@ -265,7 +264,7 @@ const selectTask = (project, name) => {
         } else {
             allTasksInDOM[i].classList = "task";
         }
-    };
+    }
     if(window.event.target.classList.contains("done")){
         window.event.target.classList = "task done active";
     } else {
@@ -274,7 +273,7 @@ const selectTask = (project, name) => {
     renderDetails(selectedTask);
 }
 
-const markTaskDone = (project, target) => {
+const markTaskDone = (project) => {
     let taskToMark = window.event.target.parentNode;
     let tasksContainer =  window.event.target.parentNode.parentNode;
     let taskToMarkIndex = Array.prototype.indexOf.call(tasksContainer.children, taskToMark);
@@ -323,7 +322,7 @@ const renderDetails = (task) => {
 
 const functionaliseDetails = (task) => {
     let title = document.getElementById("details-title");
-    title.addEventListener("click", (e) => {
+    title.addEventListener("click", () => {
         let editText = title.textContent;
         let titleInput = document.createElement("input");
         titleInput.id = "details-title-edit";
@@ -344,7 +343,7 @@ const functionaliseDetails = (task) => {
         });
     });
     let description = document.getElementById("details-description");
-    description.addEventListener("click", (e) => {
+    description.addEventListener("click", () => {
         let editText = description.textContent;
         let descriptionInput = document.createElement("textarea");
         let descriptionInputDiv = document.createElement("div");
@@ -358,7 +357,7 @@ const functionaliseDetails = (task) => {
         updateDescriptionButton.textContent = "✓";
         updateDescriptionButton.id = "update-description-button";
         descriptionInput.after(updateDescriptionButton);
-        updateDescriptionButton.addEventListener("click", (e) =>{
+        updateDescriptionButton.addEventListener("click", () =>{
             task.updateDescription(descriptionInput.value);
             descriptionInputDiv.remove();
             updateDescriptionButton.remove();
@@ -367,7 +366,7 @@ const functionaliseDetails = (task) => {
         })
     });
     let due = document.getElementById("details-due");
-    due.addEventListener("click", (e) => {
+    due.addEventListener("click", () => {
         let editDue = due.textContent;
         let dueInput = document.createElement("input");
         dueInput.type = "date";
@@ -382,7 +381,7 @@ const functionaliseDetails = (task) => {
         updateDueButton.textContent = "✓";
         updateDueButton.id = "update-due-button";
         dueInput.after(updateDueButton);
-        updateDueButton.addEventListener("click", (e) => {
+        updateDueButton.addEventListener("click", () => {
             task.updateDue(dueInput.value);
             dueInputDiv.remove()
             updateDueButton.remove();
@@ -391,7 +390,7 @@ const functionaliseDetails = (task) => {
         });
     })
     let priority = document.getElementById("details-priority");
-    priority.addEventListener("click", (e) => {
+    priority.addEventListener("click", () => {
         let editPriority = priority.textContent;
         let priorityInput = document.createElement("select");
         priorityInput.id = "details-priority-edit";
@@ -411,7 +410,7 @@ const functionaliseDetails = (task) => {
         updatePriorityButton.textContent = "✓";
         updatePriorityButton.id = "update-priority-button";
         priorityInput.after(updatePriorityButton);
-        updatePriorityButton.addEventListener("click", (e) => {
+        updatePriorityButton.addEventListener("click", () => {
             task.updatePriority(priorityInput.value);
             priorityInputDiv.remove()
             updatePriorityButton.remove();
